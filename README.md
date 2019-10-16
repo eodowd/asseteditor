@@ -8,5 +8,5 @@ requires pyfladesk and pyinstaller.
 
 # pip install pyinstaller
 
-to build out to an exe on Windows 10: pyinstaller -w  --add-data "templates;templates" --add-data "static;static" app.py
-to build out on a linux distro: pyinstaller -w --add-data "templates:templates" --add-data "static:static" app.py
+# to build out to an exe on Windows 10: pyinstaller -w  --add-data "templates;templates" --add-data "static;static" app.py
+# to build out on a linux distro: pyinstaller -w --add-data "templates:templates" --add-data "static:static" app.py
