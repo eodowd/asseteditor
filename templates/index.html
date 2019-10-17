@@ -9,6 +9,10 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Babylon.js -->
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.glTF2Serializer.js"></script>
+
+<!-- links to the latest version of the minified glTF serializer -->
+<script src="https://preview.babylonjs.com/serializers/babylonjs.glTF2Serializer.min.js"></script>
         <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
         <script src="https://preview.babylonjs.com/ammo.js"></script>
@@ -24,7 +28,7 @@
         <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
         <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
         <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
-
+<!-- links to the latest version of the glTF serializer -->
 
         <style>
             html, body {
@@ -50,6 +54,9 @@
             }
             .spacer{
                 min-width: 5px;
+            }
+            .bg-light {
+                background-color: white!important;
             }
         </style>
     </head>
@@ -138,20 +145,21 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed">
-    <a class="navbar-brand" href="#"><strong>Asset</strong>Editor</a>
+    <a class="navbar-brand" href="#"><strong>Asset</strong><light>Editor</light></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <button value="Refresh Page" onClick="window.location.reload();"><i class="fa fa-file"></i></button>
       <div class="spacer"></div>
-
-
 <button type="button"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-folder-open"></i></button>
         <div class="spacer"></div>
 <button type="button"  data-toggle="modal" data-target="#exampleModal1"><i class="fa fa-cube"></i></button>
       <div class="spacer"></div>
             <button value="Refresh Page" onClick="a=true"><i class="fa fa-save"></i></button>
+      <div class="spacer"></div>
+       <button value="f Page" onClick="b=true"><i class="fa fa-save"></i></button>
+            <div class="spacer"></div>
     </div>
   </div>
 </nav>
@@ -222,12 +230,6 @@
 
 
 
-
-
-
-
-
-
         var selected = null;
 
             scene.onPointerObservable.add(function(evt){
@@ -249,9 +251,7 @@
             }, BABYLON.PointerEventTypes.POINTERUP);
 
 
-
-
-
+clearGizmoOnEmptyPointerEvent: true;
 
 
 
@@ -265,12 +265,13 @@
 
                     gizmoManager.positionGizmoEnabled = true;
                     gizmoManager.gizmos.positionGizmo.snapDistance = 0.1;
-
+                    gizmoManager.rotationGizmoEnabled = false;
+                    gizmoManager.scaleGizmoEnabled = false;
 
 
             }
             else {
-                gizmoManager.attachToMesh(null);
+
             }
 
 
@@ -280,22 +281,26 @@
         if(inputMap["r"]){
             var r = true;
             if(r){
+                gizmoManager.scaleGizmoEnabled = false;
+                gizmoManager.positionGizmoEnabled = false;
                 gizmoManager.rotationGizmoEnabled = true;
-                gizmoManager.gizmos.rotationGizmo.snapDistance = 0.1;
+                gizmoManager.gizmos.rotationGizmo.snapDistance = 0;
             }
             else {
-                gizmoManager.attachToMesh(null);
+
             }
 
         }
         if(inputMap["e"]){
             var s = true;
             if(s){
+            gizmoManager.positionGizmoEnabled = false;
+            gizmoManager.rotationGizmoEnabled = false;
                 gizmoManager.scaleGizmoEnabled = true;
                 gizmoManager.gizmos.scaleGizmo.snapDistance = 0;
             }
             else {
-                gizmoManager.attachToMesh(null);
+
             }
 
         }
@@ -307,10 +312,6 @@
 
             }
             else {
-                selected = null;
-                gizmo1.attachedMesh = !gizmo1.attachedMesh ? selected : null
-                gizmo2.attachedMesh = !gizmo2.attachedMesh ? selected : null
-                gizmo3.attachedMesh = !gizmo3.attachedMesh ? selected : null
             }
 
         }
@@ -320,9 +321,7 @@
                 selected.dispose();
             }
             else {
-            gizmo1.attachedMesh = !gizmo1.attachedMesh ? selected : null
-                gizmo2.attachedMesh = !gizmo2.attachedMesh ? selected : null
-                gizmo3.attachedMesh = !gizmo3.attachedMesh ? selected : null
+
             }
 
         }
@@ -333,10 +332,11 @@
         }
         if(inputMap["p"]){
          camera.attachControl(canvas)
+         b = true;
 
         }
-        if(inputMap["h"]){
-        a = true;
+        if(inputMap["b"]){
+        b= true;
 
 
         }
@@ -347,10 +347,9 @@
 
 
 
-
    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "suz");
+    var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "screenshot");
     button1.width = "150px"
     button1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
     button1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
@@ -360,11 +359,49 @@
     button1.background = "white";
     button1.onPointerUpObservable.add(function() {
 
+//    BABYLON.Tools.CreateScreenshot(engine, camera, { width: 1366, height: 768 },create_pic);﻿
+
+
+    BABYLON.GLTF2Export.GLBAsync(scene, 'test').then(gltf => {
+        var blob = new Blob ( [ //pass in here ], { type : "octet/stream" } );
+         var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/glb", true);
+            xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+            xhr.send(blob)
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+//function create_pic(base64Image) {
+ //   base64Image = base64Image.replace("data:image/png;base64,", "");
+   // var xhr = new XMLHttpRequest();
+   //         xhr.open("POST", "/export", true);
+        //    xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+         //   xhr.send(base64Image);
+
+//}
+
+
+
+
 
 
 
 
     });
+
+
     advancedTexture.addControl(button1);
 
 
@@ -400,6 +437,7 @@ __createScene = createScene;
         var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
         var scene = createScene();
         a = false;
+
         engine.runRenderLoop(function () {
 
             if (scene) {
@@ -408,7 +446,6 @@ __createScene = createScene;
             if (a) {
 
             var serializedScene = BABYLON.SceneSerializer.Serialize(scene);
-
             var strScene = JSON.stringify(serializedScene);
             console.log(strScene);
             var blob = new Blob ( [ strScene ], { type : "octet/stream" } );
@@ -423,10 +460,18 @@ __createScene = createScene;
             var data = JSON.parse(this.responseText);
             console.log(data);
 
-};
+
+
+
+            }
+
+
+
 	}
 
+
                 scene.render();
+
 
             }
         });
@@ -455,12 +500,7 @@ __createScene = createScene;
 
     </script>
 
-<script>
 
-
-
-
-</script>
 
 
 
