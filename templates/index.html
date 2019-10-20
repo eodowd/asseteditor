@@ -9,25 +9,22 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Babylon.js -->
-        <script src="https://preview.babylonjs.com/serializers/babylonjs.glTF2Serializer.js"></script>
 
-<!-- links to the latest version of the minified glTF serializer -->
-<script src="https://preview.babylonjs.com/serializers/babylonjs.glTF2Serializer.min.js"></script>
-        <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
-        <script src="https://preview.babylonjs.com/ammo.js"></script>
-        <script src="https://preview.babylonjs.com/cannon.js"></script>
-        <script src="https://preview.babylonjs.com/Oimo.js"></script>
-        <script src="https://preview.babylonjs.com/gltf_validator.js"></script>
-        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
-        <script src="https://preview.babylonjs.com/babylon.js"></script>
-        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
-        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
-        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
-        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
-        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
-        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
-        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+
+        <script src="{{url_for('static', filename='babylonjs/babylon.js')}}"></script>
+        <script src="{{url_for('static', filename='babylonjs/babylonjs.serializers.min.js')}}"></script>
+        <script src="{{url_for('static', filename='babylonjs/babylon.glTF2Serializer.min.js')}}"></script>
+        <script src="{{url_for('static', filename='babylonjs/babylonjs.loaders.min.js')}}"></script>
+        <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+        <script src="{{url_for('static', filename='babylonjs/babylonjs.loaders.js.map.txt')}}"></script>
+        <script src="{{url_for('static', filename='babylonjs/babylonjs.materials.min.js')}}"></script>
+        <script src="{{url_for('static', filename='babylonjs/babylonjs.proceduralTextures.min.js')}}"></script>
+
+
+
+
+
+
 <!-- links to the latest version of the glTF serializer -->
 
         <style>
@@ -53,14 +50,66 @@
                 padding-left: 3px!important;
             }
             .spacer{
-                min-width: 5px;
+                min-width: 6px;
             }
             .bg-light {
-                background-color: white!important;
+                background-color: transparent!important;
             }
+            .fa{
+                display:inline-block;
+                font-size: 15px;
+                background-color:transparent;
+                color:white;
+                padding: 5px;
+                margin-left: 6px;
+                text-align: center;
+                vertical-align: bottom;
+            }
+            .modal-lg {
+                min-width: 1266px!important;
+
+
+
+
         </style>
     </head>
 <body>
+<!-- Modal center -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Cheat Sheet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+  <li class="list-group-item"><strong>wsad</strong> Camera control</li>
+              <li class="list-group-item"><strong>z</strong> Freeze camera movement</li>
+            <li class="list-group-item"><strong>x</strong> Restore camera movement</li>
+  <li class="list-group-item"><strong>t</strong> Translate position</li>
+  <li class="list-group-item"><strong>r</strong> Rotate Axis</li>
+  <li class="list-group-item"><strong>e</strong> Scale axis</li>
+  <li class="list-group-item"><strong>q</strong> world rotate by 90 on y (forward axis)</li>
+   <li class="list-group-item"><strong>c</strong> Clone selected object</li>
+               <li class="list-group-item"><strong>h</strong> hide all gizmos</li>
+               <li class="list-group-item"><strong>i</strong> delete selected object</li>
+                           <li class="list-group-item"><strong>p</strong> Take screenshot (.png)</li>
+                           <li class="list-group-item"><strong>m</strong> save scene as .glb mesh (files located in temp)</li>
+
+
+
+</ul>
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -79,10 +128,7 @@
 
 
 
-    <form action="/import" method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value="Load asset">
-    </form>
+
 
 
 
@@ -97,8 +143,8 @@
 
 
 <!-- Modal2 -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Asset Browser</h5>
@@ -109,20 +155,21 @@
 
 
       </div>
-      <div class="modal-body">
+      <div class="modal-body row">
 
 
 
 {% for object in objects %}
- <div class="card">
-    <div class="card-body">
-      <h4 class="card-title">{{ object }}</h4>
-          <button value="Refresh Page" onClick='BABYLON.SceneLoader.Append("", "static/{{object}}", scene,);'>Load Mesh Data</button>
+          <div class="col-md-4">
+          <ul class="list-group">
+  <li class="list-group-item">{{ object }}</li>
+               <button type="button" class="btn btn-info" value="Refresh Page" onClick='BABYLON.SceneLoader.Append("", "static/{{object}}", scene,);'>Load Mesh</button>
 
 
-    </div>
-  </div>
+</ul>
+
 <br>
+          </div>
 {% endfor %}
 
 
@@ -141,32 +188,47 @@
     $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
 })
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 </script>
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed">
-    <a class="navbar-brand" href="#"><strong>Asset</strong><light>Editor</light></a>
+    <a class="navbar-brand text-white " href="#"><strong>Asset</strong><light>Editor</light></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <button value="Refresh Page" onClick="window.location.reload();"><i class="fa fa-file"></i></button>
-      <div class="spacer"></div>
-<button type="button"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-folder-open"></i></button>
-        <div class="spacer"></div>
-<button type="button"  data-toggle="modal" data-target="#exampleModal1"><i class="fa fa-cube"></i></button>
-      <div class="spacer"></div>
-            <button value="Refresh Page" onClick="a=true"><i class="fa fa-save"></i></button>
-      <div class="spacer"></div>
-       <button value="f Page" onClick="b=true"><i class="fa fa-save"></i></button>
-            <div class="spacer"></div>
-    </div>
-  </div>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="btn-group bg-info rounded active" role="group" aria-label="Basic example">
+
+      <button type="button" class="btn btn-info" value="Refresh Page" data-toggle="tooltip" data-placement="bottom" title="Create A New Scene" onClick="window.location.reload();"><i class="fa fa-file"></i></button>
+
+<button type="button" class="btn btn-info"  data-toggle="modal" data-toggle="tooltip" data-placement="bottom" title="Open An Older Scene" data-target="#exampleModal"><i class="fa fa-folder-open"></i></button>
+
+<button type="button"  class="btn btn-info" data-toggle="modal" data-toggle="tooltip" data-placement="bottom" title="View Asset Browser" data-target="#exampleModal1"><i class="fa fa-cube"></i></button>
+
+
+
+       <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter" value="f Page" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick="b=true"><i class="fa fa-question"></i></button>
+
+
+
+
+
+
+</div>
+
+</div>
 </nav>
 
 
 
+
+
     <canvas id="renderCanvas"></canvas>
+
 
     <script>
         var canvas = document.getElementById("renderCanvas");
@@ -174,7 +236,7 @@
         var createScene = function () {
 
             var scene = new BABYLON.Scene(engine);
-            var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, 20), scene);
+            var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 2, 15), scene);
             camera.setTarget(BABYLON.Vector3.Zero());
             camera.attachControl(canvas, true);
 
@@ -182,21 +244,25 @@
 
             var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
             light.intensity = 0.9;
-            scene.clearColor = new BABYLON.Color3(0,0,0);
+            scene.clearColor = new BABYLON.Color3(	0, 0, 0);
 
-
+            var hl = new BABYLON.HighlightLayer("hl1", scene);
 
 
 
  // Keyboard events
     var inputMap ={};
+
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
         inputMap[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+
     }));
     scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, function (evt) {
         inputMap[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+
     }));
+
                 // loader
             var loader = new BABYLON.AssetsManager(scene);
             var utilLayer = new BABYLON.UtilityLayerRenderer(scene);
@@ -207,202 +273,156 @@
 
 	        var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height: 50}, scene);
 	        ground.material = grid;
-            BABYLON.SceneLoader.Append("static/", "{{file}}", scene,);
+
 
             var gizmoManager = new BABYLON.GizmoManager(scene);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
         var selected = null;
 
             scene.onPointerObservable.add(function(evt){
-                if(evt.pickInfo.hit && evt.pickInfo.pickedMesh && evt.pickInfo.pickedMesh != ground && evt.event.button === 0){
-                    selected = evt.pickInfo.pickedMesh;
+
+                if(evt.pickInfo.hit && evt.pickInfo.pickedMesh && evt.pickInfo.pickedMesh != "ground" && evt.event.button === 0){
+                    if(evt.pickInfo.pickedMesh != ground){
+
+                        selected = evt.pickInfo.pickedMesh;
+                        gizmoManager.attachableMeshes = [selected];
+
+                        hl.addExcludedMesh(ground);
 
 
+
+
+
+                    }
+                    else{
+
+                        selected = null;
+                            h1.removeMesh(selected)
+
+                    }
 
 
                 }
                 else{
-                h1.removeMesh(selected)
-                selected= null;
 
+                selected= null;
+h1.removeMesh(selected)
 
                 }
+h1.removeMesh(selected)
 
 
             }, BABYLON.PointerEventTypes.POINTERUP);
 
 
-clearGizmoOnEmptyPointerEvent: true;
 
 
+	scene.onKeyboardObservable.add((kbInfo) => {
+		switch (kbInfo.type) {
+			case BABYLON.KeyboardEventTypes.KEYDOWN:
+				switch (kbInfo.event.key) {
+                    case "t":
+                    case "T":               gizmoManager.boundingBoxGizmoEnabled = false;
+                                            gizmoManager.positionGizmoEnabled = true;
+                                            gizmoManager.gizmos.positionGizmo.snapDistance = 0.1;
+                                            gizmoManager.rotationGizmoEnabled = false;
+                                            gizmoManager.scaleGizmoEnabled = false;
+                    break
+                    case "r":
+                    case "R":
+                    gizmoManager.boundingBoxGizmoEnabled = false;
+                                    gizmoManager.scaleGizmoEnabled = false;
+                                    gizmoManager.positionGizmoEnabled = false;
+                                    gizmoManager.rotationGizmoEnabled = true;
+                                    gizmoManager.gizmos.rotationGizmo.snapDistance = 0;
+                    break
+                    case "e":
+                    case "E":
+                    gizmoManager.boundingBoxGizmoEnabled = false;
+                                gizmoManager.positionGizmoEnabled = false;
+                                gizmoManager.rotationGizmoEnabled = false;
+                                gizmoManager.scaleGizmoEnabled = true;
+                                gizmoManager.gizmos.scaleGizmo.snapDistance = 0;
+                    break
+                    case "q":
+                    case "Q":
+                        selected.rotate(BABYLON.Axis.Y, 1 * Math.PI/2, BABYLON.Space.WORLD);
+                    break
+                    case "z":
+                    case "Z":
+                        camera.detachControl(canvas);
+                    break
+                    case "x":
+                    case "X":
+                        camera.attachControl(canvas, true);
+                    break
+                    case "i":
+                    case "I":
+                        if(selected != ground){
+                        selected.dispose();
+                        }
+
+                    break
+                    case "o":
+                    case "O":
+
+                        //here reset
+
+                    break
+                    case "p":
+                    case "P":
+                        BABYLON.Tools.CreateScreenshot(engine, camera, { width: 1366, height: 768 },create_pic);﻿
+                        function create_pic(base64Image) {
+                            base64Image = base64Image.replace("data:image/png;base64,", "");
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "/export", true);
+                            xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+                            xhr.send(base64Image);
 
 
+                            }
+
+                    break
+                    case "m":
+                    case "M":
+                                let options = {
+                                    shouldExportNode: function(node) {
+                                        return node !== ground;
+                                    }
+                                }
+                                    BABYLON.GLTF2Export.GLBAsync(scene, "geometry", options).then((response) => {
+                                        let blob = response.glTFFiles['geometry.glb'];
+                                        let file = new File([blob], 'geometry.glb');
+                                         var xhr = new XMLHttpRequest();
+                                            xhr.open("POST", "/glb", true);
+                                            xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+                                            xhr.send(file)
+                                    });
+                    break
+                    case "h":
+                    case "H":
+                              gizmoManager.scaleGizmoEnabled = false;
+                                    gizmoManager.positionGizmoEnabled = false;
+                                    gizmoManager.rotationGizmoEnabled = false;
+                    break
+                    case "c":
+                    case "C":
+                                selected.clone();
+
+                    break
+                }
+			break;
+		}
+	});
 
 
-    scene.onBeforeRenderObservable.add(()=>{
-        if(inputMap["t"]){
-            var t = true;
-            if(t){
-
-                    gizmoManager.positionGizmoEnabled = true;
-                    gizmoManager.gizmos.positionGizmo.snapDistance = 0.1;
-                    gizmoManager.rotationGizmoEnabled = false;
-                    gizmoManager.scaleGizmoEnabled = false;
-
-
-            }
-            else {
-
-            }
-
-
-
-        }
-
-        if(inputMap["r"]){
-            var r = true;
-            if(r){
-                gizmoManager.scaleGizmoEnabled = false;
-                gizmoManager.positionGizmoEnabled = false;
-                gizmoManager.rotationGizmoEnabled = true;
-                gizmoManager.gizmos.rotationGizmo.snapDistance = 0;
-            }
-            else {
-
-            }
-
-        }
-        if(inputMap["e"]){
-            var s = true;
-            if(s){
-            gizmoManager.positionGizmoEnabled = false;
-            gizmoManager.rotationGizmoEnabled = false;
-                gizmoManager.scaleGizmoEnabled = true;
-                gizmoManager.gizmos.scaleGizmo.snapDistance = 0;
-            }
-            else {
-
-            }
-
-        }
-        if(inputMap["c"]){
-            var c = true;
-            if(c){
-
-                selected.clone();
-
-            }
-            else {
-            }
-
-        }
-        if(inputMap["x"]){
-            var x = true;
-            if(x){
-                selected.dispose();
-            }
-            else {
-
-            }
-
-        }
-
-        if(inputMap["i"]){
-         camera.detachControl(canvas)
-
-        }
-        if(inputMap["p"]){
-         camera.attachControl(canvas)
-         b = true;
-
-        }
-        if(inputMap["b"]){
-        b= true;
-
-
-        }
-        else{
-            a = false;
-        }
-    })
-
-
-
-   var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-
-    var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "screenshot");
-    button1.width = "150px"
-    button1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    button1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
-    button1.height = "40px";
-    button1.color = "black";
-    button1.cornerRadius = 0;
-    button1.background = "white";
-    button1.onPointerUpObservable.add(function() {
-
-//    BABYLON.Tools.CreateScreenshot(engine, camera, { width: 1366, height: 768 },create_pic);﻿
-
-
-    BABYLON.GLTF2Export.GLBAsync(scene, 'test').then(gltf => {
-        var blob = new Blob ( [ //pass in here ], { type : "octet/stream" } );
-         var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/glb", true);
-            xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-            xhr.send(blob)
-
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-//function create_pic(base64Image) {
- //   base64Image = base64Image.replace("data:image/png;base64,", "");
-   // var xhr = new XMLHttpRequest();
-   //         xhr.open("POST", "/export", true);
-        //    xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-         //   xhr.send(base64Image);
-
-//}
-
-
-
-
-
-
-
-
-    });
-
-
-    advancedTexture.addControl(button1);
+    //wsad camera control
+	camera.keysUp.push(87); // "w"
+	camera.keysDown.push(83); // "s"
+    camera.keysLeft.push(65); // "a"
+    camera.keysRight.push(68); // "d"
 
 
 
@@ -415,6 +435,7 @@ clearGizmoOnEmptyPointerEvent: true;
 
 
 engine.hideLoadingUI();
+
 loader.load();
 
 return scene
